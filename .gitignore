@@ -1,0 +1,31 @@
+# --- ASP.NET Core ---
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.shellsettings
+appsettings.Development.json
+
+# --- Node / React ---
+node_modules/
+npm-debug.log*
+yarn-error.log*
+dist/
+dist-ssr/
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# --- IDE ---
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.lp
+
+# --- System ---
+.DS_Store
+Thumbs.db
