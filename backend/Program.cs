@@ -36,6 +36,16 @@ builder.Services.AddAuthentication(options =>
     options.MapInboundClaims = false;
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("ReactAppPolicy", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<IUserService ,UserService>();
@@ -45,6 +55,8 @@ builder.Services.AddHttpClient<IOsmService, OsmService>();
 var app = builder.Build();
 
 app.UseRouting();
+
+app.UseCors("ReactAppPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();
