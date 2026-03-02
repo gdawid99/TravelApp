@@ -16,7 +16,7 @@ export const LoginForm = () => {
                 <Typography variant="h3">Welcome</Typography>
                 <Stack spacing={4} width={'80%'} direction={'column'}>
                     <TextField color="secondary" label="Email" variant="outlined"/>
-                    <TextField color="secondary" label="Password" variant="outlined"/>
+                    <TextField color="secondary" label="Password" type="password" variant="outlined"/>
                     <Link onClick={changeDialog} component='button' underline="none" variant="body2" sx={{color:theme.palette.secondary.main, display:'flex', justifyContent:'center'}}>You don't have an account? Create it now here!</Link>
                 </Stack>
                 <Button size="large" variant="contained">Login</Button>

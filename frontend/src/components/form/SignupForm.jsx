@@ -31,7 +31,7 @@ export const SignupForm = () => {
                 <Stack spacing={4} width={'80%'} direction={'column'}>
                     <TextField color="secondary" label="Name" variant="outlined" onChange={(e) => setName(e.target.value)}/>
                     <TextField color="secondary" label="Email" variant="outlined" onChange={(e) => setEmail(e.target.value)}/>
-                    <TextField color="secondary" label="Password" variant="outlined" onChange={(e) => setPassword(e.target.value)}/>
+                    <TextField color="secondary" label="Password" type="password" variant="outlined" onChange={(e) => setPassword(e.target.value)}/>
                 </Stack>
                 <Button size="large" variant="contained" disabled={loading} onClick={handleSubmit}>{loading ? 'Loading...' : 'Create'}</Button>
             </Stack>
