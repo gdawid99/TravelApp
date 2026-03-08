@@ -78,7 +78,16 @@ namespace TravelApp.Services
                 AccessToken = accessTokenRes.token,
                 AccessTokenExpiresAt = accessTokenRes.expiresAt,
                 RefreshToken = refreshTokenRes.token,
-                RefreshTokenExpiresAt = refreshTokenRes.expiresAt
+                RefreshTokenExpiresAt = refreshTokenRes.expiresAt,
+                UserData = new UserDataDto
+                {
+                    Id = user.UserId,
+                    Name = user.Name,
+                    Email = user.Email,
+                    LoginDate = user.LoginDate,
+                    Status = user.Status,
+                    Role = user.Role
+                }
             };
         }
 
