@@ -7,6 +7,8 @@ import { Map } from "./components/main/Map";
 import { LoginDialog } from "./components/dialog/Logindialog";
 import { DiscoverDrawer } from "./components/drawer/DiscoverDrawer";
 import { SignupDialog } from "./components/dialog/SignupDialog";
+import { AuthProvider } from "./components/context/provider/AuthProvider";
+import { ProtectedSection } from "./ProtectedSection";
 
 const theme = createTheme({
   palette: {
@@ -36,15 +38,19 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <DiscoverDrawer/>
-        <LoginDialog/>
-        <SignupDialog/>
-        <Box>
-          <Header/>
-          <Welcome/>
-          <ComponentList/>
-          <Map/>
-        </Box>
+        <AuthProvider>
+          <DiscoverDrawer/>
+          <LoginDialog/>
+          <SignupDialog/>
+          <Box>
+            <Header/>
+            <Welcome/>
+            <ComponentList/>
+            <ProtectedSection>
+              <Map/>
+            </ProtectedSection>
+          </Box>
+        </AuthProvider>
       </ThemeProvider>
     </>
   )
