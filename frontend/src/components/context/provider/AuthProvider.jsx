@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { authApi, refreshTokenFun } from "../../../services/api";
+import { authApi, refreshTokenFun, setApiAccessToken } from "../../../services/api";
 import { AuthContext } from "../AuthContext";
 import { useDialogContext } from "../../../hooks/useDialogContext";
 
@@ -14,11 +14,10 @@ export const AuthProvider = ({ children }) => {
         try {
             const res = await authApi.login({ Email: email, Password: password});
 
-            const { accessToken, accessTokenExpiresAt, refreshToken, refreshTokenExpiresAt, userData } = res.data;
+            const { accessToken, userData } = res.data;
 
+            setApiAccessToken(accessToken);
             setToken(accessToken);
-            localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('refreshToken', refreshToken);
             setUser(userData);
         }
         catch (err) {
@@ -31,34 +30,22 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         setToken(null);
+        setApiAccessToken(null);
         setUser(null);
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
     };
 
     useEffect(() => {
         const autoLogin = async () => {
             setLoading(true);
 
-            const storedToken = localStorage.getItem('refreshToken');
-            if (storedToken) {
-                try {
-                    const res = await refreshTokenFun();
+            try {
+                const res = await refreshTokenFun();
 
-                    const { accessToken, refreshToken, userData } = res;
-
-                    console.log("REFRESH");
-                    console.log(accessToken);
-                    console.log(refreshToken);
-
-                    setToken(accessToken);
-                    setUser(userData);
-                }
-                catch (err) {
-                    localStorage.removeItem('accessToken');
-                    localStorage.removeItem('refreshToken');
-                    console.log(err);
-                }
+                setToken(res.accessToken)
+                setUser(res.userData);
+            }
+            catch (err) {
+                console.log(err);
             }
             setLoading(false);
         };

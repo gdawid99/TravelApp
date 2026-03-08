@@ -1,22 +1,23 @@
 import axios from 'axios'
 
 let refreshPromise = null;
+let apiAccessToken = null;
+
+export const setApiAccessToken = (token) => {
+    apiAccessToken = token;
+}
 
 export const refreshTokenFun = async () => {
     if (!refreshPromise) {
-        refreshPromise = refreshApi.post('/auth/refresh', {
-            accessToken: localStorage.getItem('accessToken'),
-            refreshToken: localStorage.getItem('refreshToken')
-        });
+        refreshPromise = refreshApi.post('/auth/refresh');
     }
 
     try {
         const res = await refreshPromise;
 
-        const { accessToken, refreshToken } = res.data;
+        const { accessToken } = res.data;
 
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
+        setApiAccessToken(accessToken);
 
         return res.data;
     }
@@ -29,17 +30,18 @@ export const refreshTokenFun = async () => {
 export const api = axios.create({
     baseURL: 'http://localhost:5164/api/v1',
     timeout: 5000,
+    withCredentials: true
 })
 
 export const refreshApi = axios.create({
     baseURL: 'http://localhost:5164/api/v1',
     timeout: 5000,
+    withCredentials: true
 })
 
 api.interceptors.request.use((config) => {
-    const token = localStorage.getItem('accessToken');
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+    if (apiAccessToken) {
+        config.headers.Authorization = `Bearer ${apiAccessToken}`;
     }
     return config;
 })
